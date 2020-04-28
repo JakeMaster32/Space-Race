@@ -6,6 +6,8 @@ import javax.imageio.ImageIO;
 
 public class Player extends Game_Object {
 	int score = 0;
+	boolean up = false;
+	boolean down = false;
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
@@ -42,6 +44,7 @@ public class Player extends Game_Object {
 		}
 
 	}
+
 	void draw(Graphics g) {
 		if (gotImage) {
 			g.drawImage(image, x, y, width, height, null);
@@ -49,6 +52,17 @@ public class Player extends Game_Object {
 			g.setColor(Color.BLUE);
 			g.fillRect(x, y, width, height);
 		}
-		
+
+	}
+
+	public void update() {
+		super.update();
+		if (up) {
+			up();
+		}
+		if (down) {
+			down();
+
+		}
 	}
 }

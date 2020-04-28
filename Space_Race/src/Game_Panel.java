@@ -78,6 +78,15 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 			}
 			state = GAME;
 		}
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			System.out.println("UP");
+			two.up = true;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			System.out.println("DOWN");
+
+			two.down = true;
+		}
 	}
 
 	@Override
@@ -107,7 +116,7 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 		g.setColor(Color.WHITE);
 		g.drawString("" + one.score, 60, 650);
 		g.drawString("" + two.score, 620, 650);
-		g.fillRect(350,540, 10, countdown+100);
+		g.fillRect(350, 435, 10, countdown * 4);
 	}
 
 	void drawEndState(Graphics g) {
@@ -119,9 +128,8 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == timer) {
 			repaint();
-		}
-		else {
-			countdown = countdown -1;
+		} else {
+			countdown = countdown - 1;
 		}
 	}
 }
