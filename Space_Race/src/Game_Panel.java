@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,10 +15,10 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 	final int INSTRUCTIONS = 1;
 	final int GAME = 2;
 	final int END = 3;
-
+	boolean timerOver = false;
 	int state = MENU;
-	Player one = new Player(200, 600, 50, 70, true);
-	Player two = new Player(450, 600, 50, 70, false);
+	Player one = new Player(200, 600, 30, 50, true);
+	Player two = new Player(450, 600, 30, 50, false);
 	Timer timer = new Timer(1000 / 60, this);
 	Timer gametimer = new Timer(1000, this);
 	int countdown = 60;
@@ -78,16 +79,16 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 		} else if (state == INSTRUCTIONS) {
 			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 				state = GAME;
+				countdown = 60;
 				gametimer.start();
 			}
-			
+
 		} else if (state == END) {
 			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 				state = MENU;
 			}
 		}
-			
-		
+
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			System.out.println("UP");
 			two.goUp();
@@ -117,6 +118,10 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void drawMenuState(Graphics g) {
+		one.score = 0;
+		two.score = 0;
+		one.y = 604;
+		two.y = 604;
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 700, 700);
 		g.setFont(new Font("Arial", Font.PLAIN, 48));
@@ -169,8 +174,17 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 				countdown = countdown - 1;
 				System.out.println("timer");
 			} else {
+				gametimer.stop();
+				countdown = 1;
 				state = END;
 			}
+		}
+		if (one.y == 0) {
+			one.score = one.score + 1;
+			one.y = 604;
+		} else if (two.y == 0) {
+			two.score = two.score + 1;
+			two.y = 604;
 		}
 	}
 }

@@ -76,6 +76,6 @@ public class Player extends Game_Object {
 				y += speed;
 			}
 		}
-		
+	
 	}
 }
