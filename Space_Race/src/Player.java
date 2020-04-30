@@ -6,18 +6,21 @@ import javax.imageio.ImageIO;
 
 public class Player extends Game_Object {
 	int score = 0;
-	boolean up = false;
-	boolean down = false;
+	private boolean up = false;
+	private boolean down = false;
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
+	boolean keyPressed = false;
+	boolean player1;
 
-	Player(int x, int y, int width, int height) {
+	Player(int x, int y, int width, int height, boolean player1) {
 		super(x, y, width, height);
-		speed = 10;
+		speed = 4;
 		if (needImage) {
 			loadImage("rocketship.png");
 		}
+		this.player1 = player1;
 	}
 
 	void loadImage(String imageFile) {
@@ -32,17 +35,21 @@ public class Player extends Game_Object {
 		}
 	}
 
-	public void down() {
-		if (y <= 725) {
-			y += speed;
-		}
+	public void goDown() {
+
+		down = true;
+		up = false;
+		System.out.println(y);
+		keyPressed = true;
 	}
 
-	public void up() {
-		if (y > 0) {
-			y -= speed;
-		}
+	public void goUp() {
 
+		down = false;
+		up = true;
+		System.out.println("" + y);
+
+		keyPressed = true;
 	}
 
 	void draw(Graphics g) {
@@ -52,17 +59,23 @@ public class Player extends Game_Object {
 			g.setColor(Color.BLUE);
 			g.fillRect(x, y, width, height);
 		}
-
+		update();
 	}
 
 	public void update() {
 		super.update();
-		if (up) {
-			up();
-		}
-		if (down) {
-			down();
+		if (up && keyPressed) {
+			if (y > 0) {
+				y -= speed;
+
+			}
 
 		}
+		if (down && keyPressed) {
+			if (y <= 600) {
+				y += speed;
+			}
+		}
+		
 	}
 }
