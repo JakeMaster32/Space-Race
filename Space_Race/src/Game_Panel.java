@@ -17,8 +17,8 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 	final int END = 3;
 	boolean timerOver = false;
 	int state = MENU;
-	Player one = new Player(200, 600, 30, 50, true);
-	Player two = new Player(450, 600, 30, 50, false);
+	Player one = new Player(200, 620, 30, 50, true);
+	Player two = new Player(450, 620, 30, 50, false);
 	Timer timer = new Timer(1000 / 60, this);
 	Timer gametimer = new Timer(1000, this);
 	int countdown = 60;
@@ -120,8 +120,8 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 	void drawMenuState(Graphics g) {
 		one.score = 0;
 		two.score = 0;
-		one.y = 604;
-		two.y = 604;
+		one.y = 620;
+		two.y = 620;
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 700, 700);
 		g.setFont(new Font("Arial", Font.PLAIN, 48));
@@ -143,6 +143,7 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 		g.drawString("" + one.score, 60, 650);
 		g.drawString("" + two.score, 620, 650);
 		g.fillRect(350, Space_Race.HEIGHT - (countdown * 4), 10, countdown * 4);
+		
 	}
 
 	void drawEndState(Graphics g) {
@@ -181,10 +182,10 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 		}
 		if (one.y == 0) {
 			one.score = one.score + 1;
-			one.y = 604;
+			one.y = 620;
 		} else if (two.y == 0) {
 			two.score = two.score + 1;
-			two.y = 604;
+			two.y = 620;
 		}
 	}
 }

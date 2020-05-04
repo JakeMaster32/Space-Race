@@ -72,7 +72,7 @@ public class Player extends Game_Object {
 
 		}
 		if (down && keyPressed) {
-			if (y <= 600) {
+			if (y <= 616) {
 				y += speed;
 			}
 		}
