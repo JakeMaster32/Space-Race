@@ -18,7 +18,7 @@ public class Debris extends Game_Object{
 	public void update() {
 		super.update();
 		y += speed;
-		if (y > 800) {
+		if (y > 700) {
 			isActive = false;
 		}
 	}
