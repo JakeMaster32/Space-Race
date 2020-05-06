@@ -17,8 +17,8 @@ public class Debris extends Game_Object{
 
 	public void update() {
 		super.update();
-		y += speed;
-		if (y > 700) {
+		x += speed;
+		if (x > 700) {
 			isActive = false;
 		}
 	}
@@ -26,7 +26,7 @@ public class Debris extends Game_Object{
 	
 	void draw(Graphics g) {
 			g.setColor(Color.WHITE);
-			g.fillOval(350, 350, 10, 10);
+			g.fillOval(x, y, 10, 10);
 		}
 	
 

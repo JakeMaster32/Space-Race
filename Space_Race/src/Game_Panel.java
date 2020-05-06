@@ -25,6 +25,8 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 	Timer gametimer = new Timer(1000, this);
 	int SuddenDeath = 0;
 	int countdown = 60;
+	ObjectManager object = new ObjectManager(one, two);
+	Timer debrisSpawn;
 
 	public Game_Panel() {
 		timer.start();
@@ -62,13 +64,13 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 		if (SuddenDeathInstructions) {
 			one.y = 620;
 			two.y = 620;
-			if (SuddenDeath > 480) {
+			if (SuddenDeath > 400) {
 				g.drawString("SUDDEN DEATH", 180, 100);
 				SuddenDeath--;
-			} else if (SuddenDeath > 380) {
+			} else if (SuddenDeath > 300) {
 				g.drawString("FIRST TO SCORE WINS", 100, 100);
 				SuddenDeath--;
-			} else if (SuddenDeath > 280) {
+			} else if (SuddenDeath > 240) {
 				g.drawString("3", 300, 100);
 				SuddenDeath--;
 			} else if (SuddenDeath > 180) {
@@ -130,6 +132,7 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 				state = GAME;
 				countdown = 60;
 				gametimer.start();
+				startGame();
 			}
 
 		} else if (state == END) {
@@ -162,6 +165,8 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 		}
 	}
 
+	
+
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -189,10 +194,11 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void drawGameState(Graphics g) {
-		g.setColor(Color.BLACK);
+		g.setColor(Color.BLACK);	
 		g.fillRect(0, 0, 700, 700);
 		one.draw(g);
 		two.draw(g);
+		
 		g.setFont(new Font("Arial", Font.PLAIN, 70));
 		g.setColor(Color.WHITE);
 		g.drawString("" + one.score, 60, 650);
@@ -226,7 +232,7 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 			repaint();
 		} else {
 			if (countdown > 0) {
-				countdown = countdown - 10;
+				countdown = countdown - 1;
 				System.out.println("timer");
 			} else {
 				gametimer.stop();
@@ -234,14 +240,16 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 				if (one.score == two.score) {
 					state = SUDDENDEATH;
 					if (SuddenDeath == 0) {
-						SuddenDeath = 580;
+						SuddenDeath = 500;
 						SuddenDeathInstructions = true;
 					}
 				} else {
 					state = END;
 				}
 			}
-
+if (state == GAME) {
+	updateGameState();
+}
 		}
 
 		if (one.y == 0) {
@@ -257,5 +265,16 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 				state = END;
 			}
 		}
+	}
+	void updateGameState() {
+		object.update();
+		one.update();
+		two.update();
+		System.out.println("update");
+	}
+	 void startGame() {
+		  debrisSpawn = new Timer(1000, object);
+		  debrisSpawn.start();
+		System.out.println("Stuff");
 	}
 }
