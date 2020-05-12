@@ -20,22 +20,20 @@ public class ObjectManager implements ActionListener {
 	void addDebris() {
 		number = random.nextInt(2);
 		if (number == 0) {
-			debris.add(new Debris(0, random.nextInt(Space_Race.HEIGHT) + 200, 10, 10));
+			debris.add(new Debris(0, random.nextInt(Space_Race.HEIGHT-200)+10 , 10, 10, true));
 		} else {
-			debris.add(new Debris(700, random.nextInt(Space_Race.HEIGHT) + 200, 10, 10));
+			debris.add(new Debris(700, random.nextInt(Space_Race.HEIGHT-200) +10, 10, 10, false));
 		}
-
+System.out.println("something");
 	}
 
 	void checkCollision() {
 		for (Debris debris : debris) {
 			if (one.collisionBox.intersects(debris.collisionBox)) {
-				one.isActive = false;
-				debris.isActive = false;
+				one.y = 620;
 			}
 			if (two.collisionBox.intersects(debris.collisionBox)) {
-				two.isActive = false;
-				debris.isActive = false;
+				two.y = 620;
 			}
 
 		}
@@ -43,6 +41,7 @@ public class ObjectManager implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		
+addDebris();
 addDebris();
 	}
 
@@ -68,8 +67,8 @@ addDebris();
 	void draw(Graphics g) {
 		one.draw(g);
 		two.draw(g);
-		for (Debris alien : debris) {
-			alien.draw(g);
+		for (Debris debris : debris) {
+			debris.draw(g);
 		}
 
 	}

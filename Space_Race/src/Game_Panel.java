@@ -22,9 +22,10 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 	Player one = new Player(200, 620, 30, 50, true);
 	Player two = new Player(450, 620, 30, 50, false);
 	Timer timer = new Timer(1000 / 60, this);
-	Timer gametimer = new Timer(1000, this);
+	Timer gametimer = new Timer(1000 / 60, this);
 	int SuddenDeath = 0;
 	int countdown = 60;
+	Timer countdownTimer = new Timer(1000, this);
 	ObjectManager object = new ObjectManager(one, two);
 	Timer debrisSpawn;
 
@@ -82,14 +83,13 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 			} else if (SuddenDeath > 60) {
 				g.drawString("GO!", 300, 100);
 				SuddenDeath--;
-				
-			}
-			else if (SuddenDeath >0) {
+
+			} else if (SuddenDeath > 0) {
 				SuddenDeathInstructions = false;
 			}
-			
+
 		}
-		
+		object.draw(g);
 	}
 
 	void drawInstructionsState(Graphics g) {
@@ -165,8 +165,6 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 		}
 	}
 
-	
-
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -194,16 +192,18 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void drawGameState(Graphics g) {
-		g.setColor(Color.BLACK);	
+
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 700, 700);
 		one.draw(g);
 		two.draw(g);
-		
+		object.draw(g);
 		g.setFont(new Font("Arial", Font.PLAIN, 70));
 		g.setColor(Color.WHITE);
 		g.drawString("" + one.score, 60, 650);
 		g.drawString("" + two.score, 620, 650);
 		g.fillRect(350, Space_Race.HEIGHT - (countdown * 4), 10, countdown * 4);
+		countdownTimer.start();
 
 	}
 
@@ -230,9 +230,17 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 		if (e.getSource() == timer) {
 
 			repaint();
-		} else {
+
+			if (state == GAME) {
+				updateGameState();
+			}
+			if (state == SUDDENDEATH) {
+				updateSuddenDeathState();
+
+			}
+		} else if (e.getSource() == countdownTimer) {
 			if (countdown > 0) {
-				countdown = countdown - 1;
+				countdown = countdown - 10;
 				System.out.println("timer");
 			} else {
 				gametimer.stop();
@@ -247,9 +255,7 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 					state = END;
 				}
 			}
-if (state == GAME) {
-	updateGameState();
-}
+
 		}
 
 		if (one.y == 0) {
@@ -265,16 +271,25 @@ if (state == GAME) {
 				state = END;
 			}
 		}
+
 	}
+
 	void updateGameState() {
 		object.update();
 		one.update();
 		two.update();
 		System.out.println("update");
 	}
-	 void startGame() {
-		  debrisSpawn = new Timer(1000, object);
-		  debrisSpawn.start();
+
+	void startGame() {
+		debrisSpawn = new Timer(1000, object);
+		debrisSpawn.start();
 		System.out.println("Stuff");
+	}
+
+	void updateSuddenDeathState() {
+		object.update();
+		one.update();
+		two.update();
 	}
 }

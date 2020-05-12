@@ -16,7 +16,7 @@ public class Player extends Game_Object {
 
 	Player(int x, int y, int width, int height, boolean player1) {
 		super(x, y, width, height);
-		speed = 4;
+		speed = 2;
 		if (needImage) {
 			loadImage("rocketship.png");
 		}
