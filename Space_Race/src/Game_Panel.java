@@ -240,7 +240,7 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 			}
 		} else if (e.getSource() == countdownTimer) {
 			if (countdown > 0) {
-				countdown = countdown - 10;
+				countdown = countdown - 1;
 				System.out.println("timer");
 			} else {
 				gametimer.stop();
