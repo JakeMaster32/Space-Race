@@ -88,9 +88,9 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 			
 			
 
-		}
+		}}
 		object.draw(g);
-		SuddenDeathInstructions = false;}
+		SuddenDeathInstructions = false;
 	}
 
 	void drawInstructionsState(Graphics g) {
