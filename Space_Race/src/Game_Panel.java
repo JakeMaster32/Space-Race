@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -84,12 +85,12 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 				g.drawString("GO!", 300, 100);
 				SuddenDeath--;
 
-			} else if (SuddenDeath > 0) {
-				SuddenDeathInstructions = false;
-			}
+			
+			
 
 		}
 		object.draw(g);
+		SuddenDeathInstructions = false;}
 	}
 
 	void drawInstructionsState(Graphics g) {
@@ -130,7 +131,10 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 		} else if (state == INSTRUCTIONS) {
 			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 				state = GAME;
+				object = new ObjectManager(one, two);
+				object.debris = new ArrayList<>();
 				countdown = 60;
+				gametimer.restart();
 				gametimer.start();
 				startGame();
 			}
@@ -192,7 +196,7 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void drawGameState(Graphics g) {
-
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 700, 700);
 		one.draw(g);
