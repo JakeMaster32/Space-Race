@@ -66,6 +66,7 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 		if (SuddenDeathInstructions) {
 			one.y = 620;
 			two.y = 620;
+			System.out.println(""+SuddenDeath);
 			if (SuddenDeath > 400) {
 				g.drawString("SUDDEN DEATH", 180, 100);
 				SuddenDeath--;
@@ -85,12 +86,13 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 				g.drawString("GO!", 300, 100);
 				SuddenDeath--;
 
-			
-			
-
-		}}
+			}
+			else if (SuddenDeath <=60) {
+				SuddenDeathInstructions = false;
+			}
+		}
 		object.draw(g);
-		SuddenDeathInstructions = false;
+		
 	}
 
 	void drawInstructionsState(Graphics g) {
@@ -123,28 +125,27 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if (state == MENU) {
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+
+			if (state == MENU) {
+
 				state = INSTRUCTIONS;
 
-			}
-		} else if (state == INSTRUCTIONS) {
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			} else if (state == INSTRUCTIONS) {
+				countdownTimer = new Timer(1000, this);
+				SuddenDeath = 0;
+				countdown = 60;
 				state = GAME;
 				object = new ObjectManager(one, two);
 				object.debris = new ArrayList<>();
-				countdown = 60;
-				gametimer.restart();
-				gametimer.start();
 				startGame();
-			}
 
-		} else if (state == END) {
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			} else if (state == END) {
+				
 				state = MENU;
 			}
-		}
 
+		}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			System.out.println("UP");
 			if (SuddenDeathInstructions == false) {
@@ -196,7 +197,7 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void drawGameState(Graphics g) {
-		
+
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, 700, 700);
 		one.draw(g);
@@ -249,14 +250,17 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 			} else {
 				gametimer.stop();
 				countdown = 1;
-				if (one.score == two.score) {
+				if (one.score == two.score && !(state==SuddenDeath)) {
 					state = SUDDENDEATH;
 					if (SuddenDeath == 0) {
 						SuddenDeath = 500;
 						SuddenDeathInstructions = true;
+						System.out.println("TRUE");
+
 					}
 				} else {
 					state = END;
+					countdownTimer.stop();
 				}
 			}
 
@@ -267,12 +271,14 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 			one.y = 620;
 			if (state == SUDDENDEATH) {
 				state = END;
+				countdownTimer.stop();
 			}
 		} else if (two.y == 0) {
 			two.score = two.score + 1;
 			two.y = 620;
 			if (state == SUDDENDEATH) {
 				state = END;
+				countdownTimer.stop();
 			}
 		}
 
@@ -282,18 +288,19 @@ public class Game_Panel extends JPanel implements KeyListener, ActionListener {
 		object.update();
 		one.update();
 		two.update();
-		System.out.println("update");
+		
 	}
 
 	void startGame() {
 		debrisSpawn = new Timer(1000, object);
 		debrisSpawn.start();
-		System.out.println("Stuff");
+		
 	}
 
 	void updateSuddenDeathState() {
 		object.update();
 		one.update();
 		two.update();
+		
 	}
 }

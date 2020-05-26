@@ -24,7 +24,7 @@ public class ObjectManager implements ActionListener {
 		} else {
 			debris.add(new Debris(700, random.nextInt(Space_Race.HEIGHT-200) +10, 10, 10, false));
 		}
-System.out.println("something");
+
 	}
 
 	void checkCollision() {
@@ -46,7 +46,7 @@ addDebris();
 	}
 
 	void update() {
-		System.out.println("Tracking down object");
+		
 		for (Debris debris : debris) {
 			debris.update();
 
